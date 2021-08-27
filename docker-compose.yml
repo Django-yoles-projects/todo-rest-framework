@@ -1,0 +1,22 @@
+version: "3.9"
+   
+services:
+  db:
+    build: 
+      context: .
+      dockerfile: ./postgres/Dockerfile
+    env_file:
+      - ./.envs/local/.env
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: /start.sh
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/local/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
